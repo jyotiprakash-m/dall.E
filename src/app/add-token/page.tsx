@@ -2,11 +2,42 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { PurchaseCredits } from "./_actions/purchaseCredits";
 
-const tokenPlans = [
-  { id: "1", name: "Basic", amount: 100, discount: 5 },
-  { id: "2", name: "Moderate", amount: 500, discount: 10 },
-  { id: "3", name: "Premium", amount: 1000, discount: 20 },
+export type TokenPlan = {
+  id: string;
+  name: string;
+  amount: number;
+  discount: number;
+  token: number;
+  description: string;
+};
+
+const tokenPlans: TokenPlan[] = [
+  {
+    id: "1",
+    name: "Basic",
+    amount: 10000, // in cents ($100)
+    discount: 5,
+    token: 100, // number of tokens
+    description: "Basic plan with 5% discount",
+  },
+  {
+    id: "2",
+    name: "Moderate",
+    amount: 50000, // in cents ($500)
+    discount: 10,
+    token: 500,
+    description: "Moderate plan with 10% discount",
+  },
+  {
+    id: "3",
+    name: "Premium",
+    amount: 100000, // in cents ($1000)
+    discount: 20,
+    token: 1000,
+    description: "Premium plan with 20% discount",
+  },
 ];
 
 export default function TokensPage() {
@@ -32,17 +63,24 @@ export default function TokensPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col items-center p-6">
+                <p className="text-2xl font-medium text-gray-800">
+                  Tokens: <span className="font-bold">{plan.token}</span>
+                </p>
                 <p className="text-lg font-medium text-gray-800">
-                  Tokens: <span className="font-bold">{plan.amount}</span>
+                  Price:{" "}
+                  <span className="font-bold">$ {plan.amount / 100}</span>
                 </p>
                 <span className="mt-2 bg-yellow-400 text-gray-900 text-sm px-3 py-1 rounded-full shadow-md">
                   {plan.discount}% Discount
                 </span>
                 <p className="mt-3 text-lg font-bold text-indigo-600">
                   Total After Discount:{" "}
-                  <span className="text-xl">{finalAmount}</span> Tokens
+                  <span className="text-xl">$ {finalAmount / 100}</span> Tokens
                 </p>
-                <Button className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg shadow-md transition-all duration-300">
+                <Button
+                  onClick={() => PurchaseCredits(plan, finalAmount)}
+                  className="mt-4 bg-indigo-600 text-white hover:bg-indigo-700 cursor-pointer"
+                >
                   Purchase
                 </Button>
               </CardContent>
