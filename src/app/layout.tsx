@@ -65,7 +65,7 @@ export default async function RootLayout({
             {/* Content */}
             <div className="flex-1 p-6 overflow-auto w-full">{children}</div>
             {/* Prompt Input */}
-            <PromptInput />
+            {userId && <PromptInput />}
           </main>
         </body>
       </html>
